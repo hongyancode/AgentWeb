@@ -10,10 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.KeyEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.DownloadListener;
-import android.webkit.WebChromeClient;
 import android.webkit.WebView;
-import android.webkit.WebViewClient;
 
 import com.just.agentweb.AgentWeb;
 import com.just.agentweb.AgentWebSettingsImpl;
@@ -24,6 +21,8 @@ import com.just.agentweb.IWebLayout;
 import com.just.agentweb.MiddlewareWebChromeBase;
 import com.just.agentweb.MiddlewareWebClientBase;
 import com.just.agentweb.PermissionInterceptor;
+import com.just.agentweb.WebChromeClient;
+import com.just.agentweb.WebViewClient;
 
 /**
  * Created by cenxiaozhong on 2017/7/22.
@@ -156,16 +155,6 @@ public abstract class BaseAgentWebActivity extends AppCompatActivity {
     }
 
 
-    protected @Nullable
-    DownloadListener getDownloadListener() {
-        return null;
-    }
-
-
-    protected void setTitle(WebView view, String title) {
-
-    }
-
     protected
     @Nullable
     String getUrl() {
@@ -228,7 +217,16 @@ public abstract class BaseAgentWebActivity extends AppCompatActivity {
     protected @NonNull
     MiddlewareWebChromeBase getMiddleWareWebChrome() {
         return this.mMiddleWareWebChrome = new MiddlewareWebChromeBase() {
+            @Override
+            public void onReceivedTitle(WebView view, String title) {
+                super.onReceivedTitle(view, title);
+                setTitle(view, title);
+            }
         };
+    }
+
+    protected void setTitle(WebView view, String title) {
+
     }
 
     protected @NonNull
